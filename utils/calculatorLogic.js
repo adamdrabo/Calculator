@@ -26,6 +26,9 @@ export function calculate(tokens) {
         if (token === "*") {
             result = left * right
         } else {
+            if(right === 0) {
+                throw new Error("Division par zéro")
+            }
             result = left / right
         }
 
