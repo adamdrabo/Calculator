@@ -1,7 +1,6 @@
-
 const OPERATORS = ["*", "/", "+", "-"]
 
-export const initialeState = {
+export const initialState = {
     tokens: [],
     justEvaluated: false,
     previousExpression: ""
@@ -95,6 +94,11 @@ export function inputDigit(state, digit) {
 export function inputOperator(state, operator) {
     const { tokens } = state
 
+
+    if (tokens[0] === "Erreur") {
+        return state
+    }
+
     if (tokens.length === 0) {
         return { ...state, tokens: ["0", operator] }
     }
@@ -115,7 +119,10 @@ export function evaluate(state) {
   const { tokens } = state;
   const lastToken = tokens[tokens.length - 1]
 
-  
+  if (tokens[0] === "Erreur") {
+        return state
+    }
+
   if (tokens.length === 0 || OPERATORS.includes(lastToken)) {
     return state;
   }
@@ -123,10 +130,17 @@ export function evaluate(state) {
   const expression = tokens.join(" ");
 
   try {
-    const result = 
+    const result = calculate(tokens)
     const rounded = Number(result.toPrecision(12));
-    return { tokens: [String(rounded)], justEvaluated: ???, previousExpression: expression }
+    return { tokens: [String(rounded)], justEvaluated: true, previousExpression: expression }
   } catch {
     return { tokens: ["Erreur"], justEvaluated: true, previousExpression: expression }
   }
 }
+
+
+
+export function clear() {
+    return initialState
+}
+
