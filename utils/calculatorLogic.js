@@ -89,3 +89,44 @@ export function inputDigit(state, digit) {
     
     return { ...state, tokens: [...tokens.slice(0, -1), lastToken + digit] }
 }
+
+
+
+export function inputOperator(state, operator) {
+    const { tokens } = state
+
+    if (tokens.length === 0) {
+        return { ...state, tokens: ["0", operator] }
+    }
+
+    const lastToken = tokens[tokens.length - 1]
+
+    if (OPERATORS.includes(lastToken)) {
+        return { ...state, tokens: [...tokens.slice(0, -1), operator] }
+    }
+
+    return { tokens: [...tokens, operator], justEvaluated: false, previousExpression: "" }
+
+}
+
+
+
+export function evaluate(state) {
+  const { tokens } = state;
+  const lastToken = tokens[tokens.length - 1]
+
+  
+  if (tokens.length === 0 || OPERATORS.includes(lastToken)) {
+    return state;
+  }
+
+  const expression = tokens.join(" ");
+
+  try {
+    const result = 
+    const rounded = Number(result.toPrecision(12));
+    return { tokens: [String(rounded)], justEvaluated: ???, previousExpression: expression }
+  } catch {
+    return { tokens: ["Erreur"], justEvaluated: true, previousExpression: expression }
+  }
+}
