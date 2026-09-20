@@ -152,8 +152,9 @@ export function evaluate(state) {
 
   try {
     const result = calculate(tokens)
-    const rounded = Number(result.toPrecision(12));
-    return { tokens: [String(rounded)], justEvaluated: true, previousExpression: expression }
+    const rounded = Number(result.toPrecision(12))
+    const text = Math.abs(rounded) >= 1e12 ? rounded.toExponential() : String(rounded)
+    return { tokens: [text], justEvaluated: true, previousExpression: expression }
   } catch {
     return { tokens: ["Erreur"], justEvaluated: true, previousExpression: expression }
   }
