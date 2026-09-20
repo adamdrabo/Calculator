@@ -1,6 +1,12 @@
 
 const OPERATORS = ["*", "/", "+", "-"]
 
+export const initialeState = {
+    tokens: [],
+    justEvaluated: false,
+    previousExpression: ""
+}
+
 export function calculate(tokens) {
    const values = []
 
@@ -63,4 +69,23 @@ export function calculate(tokens) {
 
 
    return values[0]
+}
+
+
+
+export function inputDigit(state, digit) {
+    const { tokens, justEvaluated } = state
+
+    if (justEvaluated || tokens.length === 0) {
+        return { tokens: [digit], justEvaluated: false, previousExpression: "" }
+    }
+
+    const lastToken = tokens[tokens.length - 1]
+
+    if (OPERATORS.includes(lastToken)) {
+        return { ...state, tokens: [...tokens, digit] } 
+    }
+
+    
+    return { ...state, tokens: [...tokens.slice(0, -1), lastToken + digit] }
 }
