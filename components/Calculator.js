@@ -46,19 +46,20 @@ export default function Calculator() {
 
  function handleClick(value) {
     if (value === "AC") {
-      setState(clear());
+      setState(clear())
     } else if (value === "=") {
-      setState(evaluate(state));
+      setState(evaluate(state))
     } else if (value === ".") {
       setState(inputDecimal(state));
     } else if (OPERATORS.includes(value)) {
-      setState(inputOperator(state, value));
+      setState(inputOperator(state, value))
     } else {
-      setState(inputDigit(state, value));
+      setState(inputDigit(state, value))
     }
   }
 
-  const display = state.tokens.length > 0 ? state.tokens.join(" ") : "0";
+const display = state.tokens.length > 0 ? state.tokens.map(formatToken).join(" ") : "0"
+const displaySize = display.length > 16 ? "text-3xl" : display.length > 10 ? "text-4xl sm:text-5xl" : "text-5xl sm:text-6xl"
 
   return (
     <div className="w-full max-w-sm">
@@ -67,8 +68,8 @@ export default function Calculator() {
                 {formatExpression(state.previousExpression)}
             </p>
 
-            <p className="break-all text-right text-5xl font-light text-white sm:text-6xl">
-                {display}
+            <p className={`break-words text-right font-light text-white ${displaySize}`}>
+                { display }
             </p>
         </div>
 
@@ -83,7 +84,6 @@ export default function Calculator() {
                     {button.label}
                 </button>
             ))}
-
         </div>
     </div>
   )
