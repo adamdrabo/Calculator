@@ -1,4 +1,4 @@
-const OPERATORS = ["*", "/", "+", "-"]
+export const OPERATORS = ["*", "/", "+", "-"]
 
 export const initialState = {
     tokens: [],
@@ -113,6 +113,27 @@ export function inputOperator(state, operator) {
 
 }
 
+
+
+export function inputDecimal(state) {
+  const { tokens, justEvaluated } = state;
+
+  if (justEvaluated || tokens.length === 0) {
+    return { tokens: ["0."], justEvaluated: false, previousExpression: "" };
+  }
+
+  const lastToken = tokens[tokens.length - 1];
+
+  if (OPERATORS.includes(lastToken)) {
+    return { ...state, tokens: [...tokens, "0."] };
+  }
+
+  if (lastToken.includes(".")) {
+    return state;
+  }
+
+  return { ...state, tokens: [...tokens.slice(0, -1), lastToken + "."] };
+}
 
 
 export function evaluate(state) {
